@@ -38,7 +38,7 @@ void optimized_do_phase1(float* data, size_t size);
 void optimized_do_phase2(size_t* result, float* data, float* query, size_t size);
 ```
 
-传入参数中，`data` 是已经之前排序好的数组，大小为 `size`；`query` 是所有询问，大小为 `size`。对于单个询问 `query[i]`，你需要计算 `data` 数组中小于 `query[i]` 的元素的个数，把答案保存在 `result[i]` 里。为了方便大家理解题目，solution.cc 的 `optimized_do_phase2` 函数里已经包含了一份正确的参考实现。
+传入参数中，`data` 是已经在 phase 1 中处理过的同一个数组，大小为 `size`；`query` 是所有询问，大小为 `size`。对于单个询问 `query[i]`，你需要计算 `data` 数组中小于 `query[i]` 的元素的个数，把答案保存在 `result[i]` 里。为了方便大家理解题目，solution.cc 的 `optimized_do_phase2` 函数里已经包含了一份正确的参考实现。
 
 PHASE 1 和 PHASE 2 不一定都要优化。计时的时候，两个阶段也是分开计时、计算加速比的。PHASE 2 的优化难度相对较低，建议对高性能计算比较陌生的同学，从 PHASE 2 开始入手。
 
@@ -113,6 +113,22 @@ PHASE 2
 ## 提示
 
 * 在处理查询的时候，你不一定要拘泥于二分查找。比如在 baseline.cc 的 `baseline_do_phase2` 函数里，就用了一种完全不同的方法来处理查询。哪种方法更好，更适合并行，需要你仔细思考。
-* 鸽了，吃个 bk 回来再写
+* 良好的版本控制习惯可以有效避免 “改了一下午代码后它跑不起来了，但是我又改不回去了” 之类的极端情况。推荐使用 [Git](https://git-scm.com/)
+* 使用 htop/glances 或者资源管理器查看 CPU 负载是验证自己程序正在并行工作的好方法之一
+* Perf 是 Linux 下常用的性能分析工具：<https://www.brendangregg.com/perf.html>
+* 火焰图可以直观地展示程序的性能热点：<https://www.brendangregg.com/flamegraphs.html>
+* OpenMP 是常用的并行计算框架：<https://bisqwit.iki.fi/story/howto/openmp/>
+* 如果需要做多机的并行，你可能会对 MPI 感兴趣：<https://mpitutorial.com/tutorials/>
+* SIMD 是提升程序单核性能的有效手段：<https://zhuanlan.zhihu.com/p/583326378> <https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#>
+* 适量的 Cache 知识不仅对单核优化有用，也能避免一些多线程场景下的诡异问题：<https://zhuanlan.zhihu.com/p/136300660>
+* 更加系统性的高性能计算知识，请参考七边形的 HPC 学习路线：<https://heptagonhust.github.io/HPC-roadmap/>
+* <https://en.wikipedia.org/wiki/Merge_sort#Parallel_merge_sort>
+* <https://opensource.googleblog.com/2022/06/Vectorized%20and%20performance%20portable%20Quicksort.html>
+
+
+以及一些技术无关的提示：
+
+* 如果遇到问题，请积极在 QQ 群内提问
+* 部分优化可能相当难做/难调。所以即使没有写出程序/调试成功，也欢迎把自己的天才优化想法写进提交的文档里，通过文字来展示自己对高性能计算的理解和认知。
 
 > 不管是手画还是尺规作图，都画不出标准的正七边形。如果没有计算机的话，恐怕我们很难绘制七边形的图标。不过我们很幸运，总是有足够的计算机。
