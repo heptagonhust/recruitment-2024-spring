@@ -65,8 +65,8 @@ auto make_a_index_sequence(size_t* data, size_t data_size) {
 auto make_a_random_sequence(float* data, size_t data_size) {
     auto random_engine = std::default_random_engine(SEED);
     std::uniform_real_distribution<float> distribution(
-        std::numeric_limits<float>::lowest(),
-        std::numeric_limits<float>::max()
+        std::numeric_limits<float>::lowest() / 2.0,
+        std::numeric_limits<float>::max() / 2.0
     );
     auto generator = [&distribution, &random_engine]() {
         return distribution(random_engine);
@@ -195,7 +195,7 @@ auto do_phase1_and_phase2(Config config) {
     auto data = (float*)malloc(sizeof(float) * config.data_size);
     auto index = (size_t*)malloc(sizeof(size_t) * config.data_size);
     auto result = (size_t*)malloc(sizeof(size_t) * config.data_size);
-    make_a_ordered_sequence(data, config.data_size);
+    make_a_random_sequence(data, config.data_size);
     make_a_index_sequence(index, config.data_size);
     auto query = (float*)malloc(sizeof(float) * config.data_size);
     for (size_t i = 0; i < config.data_size; ++i) {
@@ -226,7 +226,7 @@ auto do_phase1_and_phase2(Config config) {
 
     puts("别急，在给 baseline 生成数据");
     index = (size_t*)malloc(sizeof(size_t) * config.data_size);
-    make_a_ordered_sequence(data, config.data_size);
+    make_a_random_sequence(data, config.data_size);
     make_a_index_sequence(index, config.data_size);
     for (size_t i = 0; i < config.data_size; ++i) {
         query[i] = data[index[i]];
